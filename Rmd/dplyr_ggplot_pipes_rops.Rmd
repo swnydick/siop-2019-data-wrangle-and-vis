@@ -132,7 +132,9 @@ for(this_column in names(worldbank)){
    if(grepl("YR", this_column)){
     # if "YR" is in this column name...
     worldbank[[this_column]] %regex<-% c("\\.\\.", NA) 
-     #<- as.numeric(gsub("\\.\\.", NA, worldbank[[this_column]]))
+    worldbank[[this_column]] <- num(worldbank[[this_column]])
+    # Without roperators: 
+    # worldbank[[this_column]] <- as.numeric(gsub("\\.\\.", NA, worldbank[[this_column]]))
    }
 }
 
@@ -187,7 +189,9 @@ But now...
 To turn the values of `year` into nice `integers`, another regular expression is needed:
 
 ```{r regex_2}
-df2$year <- as.integer(gsub("\\..*","",df2$year))
+df2$year %regex=% c("\\..*", "")
+df2$year <- int(df2$year)
+#<- as.integer(gsub("\\..*","",df2$year))
 head(df2)
 ```
 
@@ -265,7 +269,7 @@ for(x in country_wiki){
   # print(x)
   # print(idx)
   wiki$Country[wiki$Country == x] <- country_df[idx]
-  idx <- idx+1
+  idx %+=% 1
 }
 
 
