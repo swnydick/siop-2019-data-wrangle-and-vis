@@ -1654,7 +1654,7 @@ $(document).ready(function () {
 <p></br></p>
 <div id="data-cleaning" class="section level1">
 <h1>Data Cleaning</h1>
-<p>In this tutorial, we will be taking in two data sets from a fictional company, one being data on the employees’ dempographics and the other is some fictional test scores. We will be cleaning and reformatting them to make them usable, joining them together, and producing some graphics from them. Happily, all of this is actually pretty easy in R.</p>
+<p>In this tutorial, we will be taking in two data sets from a fictional company, one being data on the employees’ demographics and the other is some fictional test scores. We will be cleaning and reformatting them to make them usable, joining them together, and producing some graphics from them. Happily, all of this is actually pretty easy in R.</p>
 <p></br></p>
 <div id="dependencies-and-setup" class="section level2">
 <h2>Dependencies and setup</h2>
@@ -1690,8 +1690,8 @@ require(roperators)</code></pre>
 </div>
 <div id="load-the-data" class="section level3">
 <h3>Load The Data</h3>
-<p>In our data folder, there are two datasets, a csv called employee_data.csv and an excel workbook called survey_results.xlsx</p>
-<p>To read in the csv data, we can use base R’s <code>read.csv</code> function, which is the same as <code>read.table</code>, which you might see in other scripts, only with different default arguments. What’s nice aboput data stored in csv files is that because they’re just plain-text flatfiles, they can be opened in any program or programming language.</p>
+<p>In our data folder, there are two data sets, a csv called employee_data.csv and an excel workbook called survey_results.xlsx</p>
+<p>To read in the csv data, we can use base R’s <code>read.csv</code> function, which is the same as <code>read.table</code>, which you might see in other scripts, only with different default arguments. What’s nice about data stored in csv files is that because they’re just plain-text flat files, they can be opened in any program or programming language.</p>
 <p><strong>The following code reads:</strong></p>
 <ul>
 <li><p>Create a variable called employees</p></li>
@@ -1700,7 +1700,7 @@ require(roperators)</code></pre>
 <li><p>And finally, don’t turn text variables into factors automatically!</p></li>
 </ul>
 <pre class="r"><code>employees &lt;- read.csv(&quot;../data/employee_data.csv&quot;, stringsAsFactors = FALSE)</code></pre>
-<p>Excel’s files are a little trickier to read in which is why we loaded the <code>openxlsx</code> package to handle it. There are other, older packages to read in .xlsx doccuments, however, they often have difficult Java dependencies, hence we prefer <code>openxlsx</code></p>
+<p>Excel’s files are a little trickier to read in which is why we loaded the <code>openxlsx</code> package to handle it. There are other, older packages to read in .xlsx documents, however, they often have difficult Java dependencies, hence we prefer <code>openxlsx</code></p>
 <pre class="r"><code>survey &lt;- read.xlsx(&quot;../data/survey_results.xlsx&quot;)</code></pre>
 </div>
 </div>
@@ -1722,13 +1722,13 @@ require(roperators)</code></pre>
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["question"],"name":[1],"type":["chr"],"align":["left"]},{"label":["100"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["101"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["102"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["103"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["104"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["105"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["106"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["107"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["108"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["109"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["110"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["111"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["112"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["113"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["114"],"name":[16],"type":["dbl"],"align":["right"]},{"label":["115"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["116"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["117"],"name":[19],"type":["dbl"],"align":["right"]},{"label":["118"],"name":[20],"type":["dbl"],"align":["right"]},{"label":["119"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["120"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["121"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["122"],"name":[24],"type":["dbl"],"align":["right"]},{"label":["123"],"name":[25],"type":["dbl"],"align":["right"]},{"label":["124"],"name":[26],"type":["dbl"],"align":["right"]},{"label":["125"],"name":[27],"type":["dbl"],"align":["right"]},{"label":["126"],"name":[28],"type":["dbl"],"align":["right"]},{"label":["127"],"name":[29],"type":["dbl"],"align":["right"]},{"label":["128"],"name":[30],"type":["dbl"],"align":["right"]},{"label":["129"],"name":[31],"type":["dbl"],"align":["right"]},{"label":["130"],"name":[32],"type":["dbl"],"align":["right"]},{"label":["131"],"name":[33],"type":["dbl"],"align":["right"]},{"label":["132"],"name":[34],"type":["dbl"],"align":["right"]},{"label":["133"],"name":[35],"type":["dbl"],"align":["right"]},{"label":["134"],"name":[36],"type":["dbl"],"align":["right"]},{"label":["135"],"name":[37],"type":["dbl"],"align":["right"]},{"label":["136"],"name":[38],"type":["dbl"],"align":["right"]},{"label":["137"],"name":[39],"type":["dbl"],"align":["right"]},{"label":["138"],"name":[40],"type":["dbl"],"align":["right"]},{"label":["139"],"name":[41],"type":["dbl"],"align":["right"]},{"label":["140"],"name":[42],"type":["dbl"],"align":["right"]},{"label":["141"],"name":[43],"type":["dbl"],"align":["right"]},{"label":["142"],"name":[44],"type":["dbl"],"align":["right"]},{"label":["143"],"name":[45],"type":["dbl"],"align":["right"]},{"label":["144"],"name":[46],"type":["dbl"],"align":["right"]},{"label":["145"],"name":[47],"type":["dbl"],"align":["right"]},{"label":["146"],"name":[48],"type":["dbl"],"align":["right"]},{"label":["147"],"name":[49],"type":["dbl"],"align":["right"]},{"label":["148"],"name":[50],"type":["dbl"],"align":["right"]},{"label":["149"],"name":[51],"type":["dbl"],"align":["right"]},{"label":["150"],"name":[52],"type":["dbl"],"align":["right"]},{"label":["151"],"name":[53],"type":["dbl"],"align":["right"]},{"label":["152"],"name":[54],"type":["dbl"],"align":["right"]},{"label":["153"],"name":[55],"type":["dbl"],"align":["right"]},{"label":["154"],"name":[56],"type":["dbl"],"align":["right"]},{"label":["155"],"name":[57],"type":["dbl"],"align":["right"]},{"label":["156"],"name":[58],"type":["dbl"],"align":["right"]},{"label":["157"],"name":[59],"type":["dbl"],"align":["right"]},{"label":["158"],"name":[60],"type":["dbl"],"align":["right"]},{"label":["159"],"name":[61],"type":["dbl"],"align":["right"]},{"label":["160"],"name":[62],"type":["dbl"],"align":["right"]},{"label":["161"],"name":[63],"type":["dbl"],"align":["right"]},{"label":["162"],"name":[64],"type":["dbl"],"align":["right"]},{"label":["163"],"name":[65],"type":["dbl"],"align":["right"]},{"label":["164"],"name":[66],"type":["dbl"],"align":["right"]},{"label":["165"],"name":[67],"type":["dbl"],"align":["right"]},{"label":["166"],"name":[68],"type":["dbl"],"align":["right"]},{"label":["167"],"name":[69],"type":["dbl"],"align":["right"]},{"label":["168"],"name":[70],"type":["dbl"],"align":["right"]},{"label":["169"],"name":[71],"type":["dbl"],"align":["right"]},{"label":["170"],"name":[72],"type":["dbl"],"align":["right"]},{"label":["171"],"name":[73],"type":["dbl"],"align":["right"]},{"label":["172"],"name":[74],"type":["dbl"],"align":["right"]},{"label":["173"],"name":[75],"type":["dbl"],"align":["right"]},{"label":["174"],"name":[76],"type":["dbl"],"align":["right"]},{"label":["175"],"name":[77],"type":["dbl"],"align":["right"]},{"label":["176"],"name":[78],"type":["dbl"],"align":["right"]},{"label":["177"],"name":[79],"type":["dbl"],"align":["right"]},{"label":["178"],"name":[80],"type":["dbl"],"align":["right"]},{"label":["179"],"name":[81],"type":["dbl"],"align":["right"]},{"label":["180"],"name":[82],"type":["dbl"],"align":["right"]},{"label":["181"],"name":[83],"type":["dbl"],"align":["right"]},{"label":["182"],"name":[84],"type":["dbl"],"align":["right"]},{"label":["183"],"name":[85],"type":["dbl"],"align":["right"]},{"label":["184"],"name":[86],"type":["dbl"],"align":["right"]},{"label":["185"],"name":[87],"type":["dbl"],"align":["right"]},{"label":["186"],"name":[88],"type":["dbl"],"align":["right"]},{"label":["187"],"name":[89],"type":["dbl"],"align":["right"]},{"label":["188"],"name":[90],"type":["dbl"],"align":["right"]},{"label":["189"],"name":[91],"type":["dbl"],"align":["right"]},{"label":["190"],"name":[92],"type":["dbl"],"align":["right"]},{"label":["191"],"name":[93],"type":["dbl"],"align":["right"]},{"label":["192"],"name":[94],"type":["dbl"],"align":["right"]},{"label":["193"],"name":[95],"type":["dbl"],"align":["right"]},{"label":["194"],"name":[96],"type":["dbl"],"align":["right"]},{"label":["195"],"name":[97],"type":["dbl"],"align":["right"]},{"label":["196"],"name":[98],"type":["dbl"],"align":["right"]},{"label":["197"],"name":[99],"type":["dbl"],"align":["right"]},{"label":["198"],"name":[100],"type":["dbl"],"align":["right"]},{"label":["199"],"name":[101],"type":["dbl"],"align":["right"]},{"label":["200"],"name":[102],"type":["dbl"],"align":["right"]},{"label":["201"],"name":[103],"type":["dbl"],"align":["right"]},{"label":["202"],"name":[104],"type":["dbl"],"align":["right"]},{"label":["203"],"name":[105],"type":["dbl"],"align":["right"]},{"label":["204"],"name":[106],"type":["dbl"],"align":["right"]}],"data":[{"1":"q1","2":"2.13149045","3":"3.867981","4":"2.420906","5":"3.289151","6":"2.3485518","7":"3.506212","8":"3.882452","9":"3.940335","10":"3.506212","11":"3.506212","12":"4.374457","13":"3.578566","14":"3.962041","15":"3.361505","16":"2.782674","17":"2.276198","18":"3.433858","19":"3.216797","20":"3.578566","21":"2.565613","22":"3.578566","23":"3.889687","24":"3.144443","25":"3.072090","26":"2.348552","27":"2.855028","28":"3.289151","29":"3.867981","30":"2.782674","31":"2.348552","32":"1.9867829","33":"3.506212","34":"3.216797","35":"3.867981","36":"3.723273","37":"3.144443","38":"2.855028","39":"2.999736","40":"3.933099","41":"3.918629","42":"3.216797","43":"3.216797","44":"3.289151","45":"2.4209055","46":"2.637967","47":"2.565613","48":"3.867981","49":"3.216797","50":"2.999736","51":"2.999736","52":"2.855028","53":"3.650920","54":"3.578566","55":"3.578566","56":"2.7103206","57":"3.506212","58":"1.6973678","59":"3.940335","60":"3.216797","61":"3.216797","62":"2.637967","63":"4.229750","64":"3.072090","65":"2.999736","66":"2.710321","67":"2.276198","68":"3.990982","69":"2.999736","70":"3.940335","71":"3.990982","72":"3.361505","73":"2.927382","74":"3.578566","75":"3.072090","76":"2.565613","77":"3.990982","78":"2.710321","79":"3.433858","80":"3.506212","81":"1.5526603","82":"2.710321","83":"2.927382","84":"2.493259","85":"3.216797","86":"2.782674","87":"3.361505","88":"4.591519","89":"2.782674","90":"2.420906","91":"3.433858","92":"3.947570","93":"3.578566","94":"3.433858","95":"2.855028","96":"1.986783","97":"1.8420754","98":"2.710321","99":"3.289151","100":"3.361505","101":"4.157396","102":"3.940335","103":"3.506212","104":"2.637967","105":"3.216797","106":"2.927382","_rn_":"1"},{"1":"q2","2":"0.51780778","3":"4.132449","4":"1.808998","5":"2.585556","6":"-0.1421079","7":"2.083680","8":"3.502425","9":"2.936289","10":"2.148384","11":"2.917961","12":"2.895670","13":"3.147671","14":"7.152177","15":"3.291777","16":"2.497465","17":"1.929552","18":"2.989114","19":"3.357682","20":"2.352637","21":"2.457335","22":"3.320879","23":"3.785178","24":"3.071804","25":"1.869359","26":"1.089839","27":"2.293571","28":"2.006269","29":"6.321811","30":"2.425611","31":"1.214563","32":"0.9817197","33":"2.613291","34":"3.301003","35":"3.142855","36":"3.049639","37":"2.376751","38":"2.341615","39":"2.418934","40":"3.314585","41":"3.614687","42":"1.992890","43":"2.479216","44":"3.421912","45":"0.5058558","46":"2.338932","47":"2.160124","48":"2.905016","49":"2.509791","50":"2.316495","51":"2.803758","52":"1.670794","53":"3.156193","54":"3.102668","55":"3.082759","56":"1.5013928","57":"3.025786","58":"1.0263598","59":"3.038199","60":"1.980829","61":"2.513204","62":"2.433322","63":"2.790407","64":"2.655431","65":"2.220098","66":"2.740728","67":"1.040550","68":"2.413882","69":"2.574067","70":"5.237835","71":"3.644643","72":"2.855320","73":"1.633622","74":"2.206948","75":"1.841612","76":"1.704275","77":"1.929709","78":"1.466348","79":"2.758920","80":"3.635097","81":"0.6917524","82":"1.287638","83":"2.498256","84":"1.070747","85":"2.533788","86":"2.528042","87":"2.731754","88":"2.331284","89":"2.469187","90":"1.569686","91":"3.410481","92":"2.526612","93":"2.067535","94":"2.874198","95":"1.850614","96":"1.007718","97":"0.7993656","98":"1.906639","99":"2.051740","100":"2.084022","101":"5.048400","102":"2.519042","103":"3.726918","104":"1.682378","105":"2.508094","106":"2.488210","_rn_":"2"},{"1":"q3","2":"0.05791976","3":"5.980333","4":"3.673018","5":"2.149323","6":"1.1145136","7":"2.641385","8":"4.077896","9":"1.959868","10":"2.798916","11":"4.115294","12":"3.084127","13":"4.100692","14":"8.278358","15":"3.322040","16":"3.183620","17":"2.395780","18":"3.316773","19":"3.044401","20":"3.423696","21":"2.560668","22":"3.485354","23":"4.698280","24":"3.194279","25":"2.226997","26":"2.335855","27":"2.313168","28":"3.840041","29":"5.546722","30":"3.317267","31":"1.603046","32":"0.2326721","33":"3.022953","34":"2.568945","35":"3.960762","36":"4.859625","37":"1.595539","38":"3.315714","39":"2.170278","40":"4.040668","41":"5.186367","42":"4.224766","43":"2.214637","44":"4.487737","45":"0.4444191","46":"1.959366","47":"3.108142","48":"4.424690","49":"3.041618","50":"3.648041","51":"4.424986","52":"3.640709","53":"3.747599","54":"4.846522","55":"5.405982","56":"0.6999042","57":"4.866015","58":"0.9456502","59":"4.222382","60":"2.045063","61":"3.431738","62":"2.957433","63":"3.569699","64":"2.097536","65":"3.122736","66":"4.141372","67":"1.735470","68":"3.600336","69":"4.472703","70":"4.830236","71":"4.185921","72":"1.117503","73":"2.971561","74":"1.956035","75":"2.722470","76":"2.116112","77":"1.889112","78":"1.849038","79":"2.910113","80":"3.533730","81":"0.8521895","82":"1.338543","83":"3.206894","84":"2.406618","85":"3.664577","86":"2.972188","87":"2.693358","88":"3.352807","89":"2.474498","90":"4.203045","91":"3.627915","92":"2.756945","93":"2.157705","94":"3.241517","95":"2.999783","96":"2.694328","97":"1.7993210","98":"1.754545","99":"2.939523","100":"2.095952","101":"5.421519","102":"1.849052","103":"5.096794","104":"2.364789","105":"3.381088","106":"3.874558","_rn_":"3"},{"1":"q4","2":"1.00000000","3":"1.000000","4":"1.000000","5":"0.000000","6":"0.0000000","7":"1.000000","8":"1.000000","9":"1.000000","10":"1.000000","11":"0.000000","12":"1.000000","13":"0.000000","14":"1.000000","15":"1.000000","16":"0.000000","17":"0.000000","18":"1.000000","19":"0.000000","20":"0.000000","21":"1.000000","22":"1.000000","23":"0.000000","24":"1.000000","25":"1.000000","26":"1.000000","27":"0.000000","28":"0.000000","29":"0.000000","30":"1.000000","31":"0.000000","32":"0.0000000","33":"1.000000","34":"0.000000","35":"0.000000","36":"1.000000","37":"1.000000","38":"0.000000","39":"1.000000","40":"0.000000","41":"0.000000","42":"0.000000","43":"1.000000","44":"1.000000","45":"0.0000000","46":"0.000000","47":"0.000000","48":"1.000000","49":"0.000000","50":"0.000000","51":"1.000000","52":"0.000000","53":"0.000000","54":"0.000000","55":"1.000000","56":"0.0000000","57":"1.000000","58":"0.0000000","59":"0.000000","60":"0.000000","61":"0.000000","62":"1.000000","63":"1.000000","64":"1.000000","65":"0.000000","66":"1.000000","67":"1.000000","68":"0.000000","69":"1.000000","70":"0.000000","71":"1.000000","72":"1.000000","73":"0.000000","74":"0.000000","75":"0.000000","76":"1.000000","77":"1.000000","78":"0.000000","79":"0.000000","80":"0.000000","81":"1.0000000","82":"0.000000","83":"0.000000","84":"0.000000","85":"1.000000","86":"1.000000","87":"1.000000","88":"1.000000","89":"0.000000","90":"0.000000","91":"0.000000","92":"0.000000","93":"0.000000","94":"0.000000","95":"0.000000","96":"0.000000","97":"1.0000000","98":"1.000000","99":"1.000000","100":"0.000000","101":"1.000000","102":"0.000000","103":"1.000000","104":"1.000000","105":"1.000000","106":"0.000000","_rn_":"4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<p><strong>Yeesh</strong> it looks like some well-meaning but not-data-minded person went and stored the survey results in wide format with one column per respondant and one row per question.</p>
+<p><strong>Yeesh</strong> it looks like some well-meaning but not-data-minded person went and stored the survey results in wide format with one column per respondent and one row per question.</p>
 <p>Before we can work with this data, <strong>We have the following problems to solve:</strong></p>
 <ol style="list-style-type: decimal">
 <li>Missing values are coded as “..” which has turned all of the numeric columns into text!</li>
 <li>Dates need to be transformed before they can be used</li>
 <li>Values from each person are placed in different columns</li>
-<li>Variables are seperated by row, not column meaning in each row are from different variables hence the yearly column statistics are meaningless</li>
+<li>Variables are separated by row, not column meaning in each row are from different variables hence the yearly column statistics are meaningless</li>
 </ol>
 </div>
 <div id="fix-the-data" class="section level2">
@@ -1737,14 +1737,14 @@ require(roperators)</code></pre>
 <h3>Fix missing values</h3>
 <p>Firstly, let’s replace those “..” missing value codes with missing values (<code>NA</code>). We also want to convert the age column into a <code>numeric</code> type. Think about the logic we want to use: we want to go through the age columns of <code>employees</code> turn all cells with <code>..</code> into <code>NA</code>, and then convert the columns into <code>numeric</code>.</p>
 <p>Happily, this is all rather easy,</p>
-<p><strong>Note</strong> In some cases, such as using <code>gsub()</code> text that contains dots, such as our <code>..</code>s will requie a <em>regular expression</em>. <em>Regular expressions</em> are a tricky subject, basically they’re specially formatted text used to select specific formats of text. You can use <em>regular expression</em>`s to do some very complicated text manipulation - but it’s more efficient to just look on <a href="http://stackoverflow.com/questions/tagged/regex" class="uri">http://stackoverflow.com/questions/tagged/regex</a> for an existing example of something similar to what you’re wanting to do.</p>
+<p><strong>Note</strong> In some cases, such as using <code>gsub()</code> text that contains dots, such as our <code>..</code>s will require a <em>regular expression</em>. <em>Regular expressions</em> are a tricky subject, basically they’re specially formatted text used to select specific formats of text. You can use <em>regular expression</em>`s to do some very complicated text manipulation - but it’s more efficient to just look on <a href="http://stackoverflow.com/questions/tagged/regex" class="uri">http://stackoverflow.com/questions/tagged/regex</a> for an existing example of something similar to what you’re wanting to do.</p>
 <p>Here, we’ll use simple <strong>logical indexing</strong> to find and replace all cells that have “..” with missing values (<code>NA</code> in R)</p>
 <p><strong>The following code reads:</strong></p>
 <ul>
 <li><p>Take the <code>age</code> column from employees (accessed with <code>$</code>)</p></li>
 <li><p>In the age column, find all rows where age is <code>&quot;..&quot;</code></p></li>
 <li><p>Replace those entries with a missing value, <code>NA</code></p></li>
-<li><p>Turn the age column into a <code>numeric</code> colummn</p></li>
+<li><p>Turn the age column into a <code>numeric</code> column</p></li>
 </ul>
 <pre class="r"><code>employees$age[employees$age == &quot;..&quot;] &lt;- NA
 employees$age                        &lt;- as.numeric(employees$age)
@@ -1755,7 +1755,7 @@ employees$age                        &lt;- as.numeric(employees$age)
 <div id="fix-dates" class="section level3">
 <h3>Fix dates</h3>
 <p>The hiring date column (<code>employees$h_date</code>) is currently a <code>character</code> string AKA a text variable. We’ll want to make that into a proper <code>datetime</code> variable first so that we can do interesting stuff, like work out how many years someone has been at the company. To do this, we’ll use the base R date functions. Note that you can work with dates in in packages like <code>lubridate</code> which just make some things a little more straightforward :)</p>
-<p>In the following code, we need to tell R what formt the date is currently in!</p>
+<p>In the following code, we need to tell R what format the date is currently in!</p>
 <p>The code reads:</p>
 <ul>
 <li><p>Overwrite the employee_data$h_date column with the output of <code>as.Date()</code></p></li>
@@ -1774,13 +1774,13 @@ employees$age                        &lt;- as.numeric(employees$age)
 </ul>
 <pre class="r"><code>employees$tenure &lt;- as.numeric(Sys.Date() - employees$h_date)/365.2422</code></pre>
 <p>And now let’s put people’s tenures into categories, let’s do: 0-1 year, 1-2 years, 2-5 years, 5-10 years, and 10+ years.</p>
-<p>To accomplish this, we’ll user R’s <code>cut()</code> function to “cut” out numeric veriable into categories.</p>
+<p>To accomplish this, we’ll user R’s <code>cut()</code> function to “cut” out numeric variable into categories.</p>
 <p><code>cut()</code> is using these arguments:</p>
 <ul>
 <li><p>the variable being transformed</p></li>
 <li><p>the break points (note <code>0</code> and <code>Inf</code> on the ends)</p></li>
 <li><p>the labels corresponding to the intervals between the breaks</p></li>
-<li><p>a logical flg telling it whether the breaks are including the number on the right of the interval. If <code>FALSE</code> it’s 0 to less than 1, 2 to less than 3; if <code>TRUE</code> it’s 0 to 1, over 1 to 2, over 2 to 3, etc.</p></li>
+<li><p>a logical flag telling it whether the breaks are including the number on the right of the interval. If <code>FALSE</code> it’s 0 to less than 1, 2 to less than 3; if <code>TRUE</code> it’s 0 to 1, over 1 to 2, over 2 to 3, etc.</p></li>
 <li><p>another flag telling R that you’d like the resulting factor levels to be ordered the way you specified it.</p></li>
 </ul>
 <pre class="r"><code>employees$tenure_label &lt;- cut(employees$tenure,
@@ -1801,7 +1801,7 @@ plot(employees$tenure_label)</code></pre>
 </div>
 <div id="reshape-the-scores-data" class="section level3">
 <h3>Reshape the scores data</h3>
-<p>Things are looking promising! But we still have to do something about the scores dataframe. It’s be nice to be able to break down our scores by employee demographics, however, that isn’t so straight-forward given that the scores are in another dataframe that is in wide format with one column per candidate. Happily, that won’t take us long to fix! We’ll use a package called <code>reshape2</code> to turn the datafrme into a nice long format (one row per candidate and one column per question/variable).</p>
+<p>Things are looking promising! But we still have to do something about the scores dataframe. It’s be nice to be able to break down our scores by employee demographics, however, that isn’t so straight-forward given that the scores are in another dataframe that is in wide format with one column per candidate. Happily, that won’t take us long to fix! We’ll use a package called <code>reshape2</code> to turn the dataframe into a nice long format (one row per candidate and one column per question/variable).</p>
 <p>First, let’s <code>melt</code> the data into a long format (think of cheese melting off of a delicious pizza if it makes the function name more intuitive). To use <code>melt()</code> we need to specify the following:</p>
 <ul>
 <li><p>the dataframe we want to transform</p></li>
@@ -1840,8 +1840,8 @@ plot(employees$tenure_label)</code></pre>
 </div>
 <div id="join-the-dataframes-together" class="section level2">
 <h2>Join the dataframes together</h2>
-<p>Alright, now we just need to join our dataframes, <code>employees</code> and <code>survey</code> together. While you could force them together by sorting by id and using <code>cbind()</code> to effectivelly slap the columns together, that isn’t really a good idea in most real-world situations as the employee id numbers may not be perfectly alligned due to discrepencies between people in the employee database and people who took the survey. That’s why we’ll do a formal <code>join</code> on the dataframes.</p>
-<p>If you’ve used <code>SQL</code> to query and manipulate data or <code>VLOOKUP</code> in Excel, this may be a familiar concept. Put simply, we want to find rows where the id varible matches between our two dataframes and copy over the corresponding survey results. In this case, since we’re appending survey results onto the employee data, we’re technically going to do a <code>left outer</code> join - i.e. keep all employee data on the laft hand side and add survey results (on the right-hand side) if we have them.</p>
+<p>Alright, now we just need to join our dataframes, <code>employees</code> and <code>survey</code> together. While you could force them together by sorting by id and using <code>cbind()</code> to effectively slap the columns together, that isn’t really a good idea in most real-world situations as the employee id numbers may not be perfectly aligned due to discrepancies between people in the employee database and people who took the survey. That’s why we’ll do a formal <code>join</code> on the dataframes.</p>
+<p>If you’ve used <code>SQL</code> to query and manipulate data or <code>VLOOKUP</code> in Excel, this may be a familiar concept. Put simply, we want to find rows where the id variable matches between our two dataframes and copy over the corresponding survey results. In this case, since we’re appending survey results onto the employee data, we’re technically going to do a <code>left outer</code> join - i.e. keep all employee data on the left hand side and add survey results (on the right-hand side) if we have them.</p>
 <p>The main types of join you’ll see used are:</p>
 <ul>
 <li><p>left outer (keep everything on the left, add data from the right if there’s a match)</p></li>
@@ -1858,7 +1858,7 @@ plot(employees$tenure_label)</code></pre>
 <p>Here, we’ll use left_join from dplyr with the following logic:</p>
 <ul>
 <li><p>Make sure the id variables in both dataframes are the same type - <code>character</code> is a good thing to convert them to.</p></li>
-<li><p>Call <code>left_join()</code> and supply the left and right data tables (employees and survey respectivelly), and by as a named character vector in the form of `c(left_id_column = right_id_column)</p></li>
+<li><p>Call <code>left_join()</code> and supply the left and right data tables (employees and survey respectively), and by as a named character vector in the form of `c(left_id_column = right_id_column)</p></li>
 </ul>
 <pre class="r"><code>employees$employee_id &lt;- as.character(employees$employee_id)
 survey$id             &lt;- as.character(survey$id)
@@ -1874,20 +1874,84 @@ head(all_data)</code></pre>
 </div>
 <div id="make-basic-aggregations" class="section level2">
 <h2>Make basic aggregations</h2>
-<p>*<strong><code>filter</code></strong> - Get a subset of rows</p>
-<p>*<strong><code>select</code></strong> - Get a subset of columns</p>
-<p>*<strong><code>group_by</code></strong> - Tag data for grouped calculations</p>
-<p>*<strong><code>summarise</code></strong> - Create aggregated data summaries and apply functions to data</p>
-<p>*<strong><code>mutate</code></strong> - Add a new variable (also works with grouped data)</p>
-<p>*<strong><code>rename</code></strong> - Rename variables</p>
-<p>*<strong><code>arrange</code></strong> - Sort the data by selected columns</p>
-<p>*<strong><code>do</code></strong> - Do an arbitrary thing</p>
+<p>Let’s dive into using <code>dplyr</code>, a popular R package for manipulating dataframes. While you can do pretty much everything <code>dplyr</code> does in base R, <code>dplyr</code> has a nice, easy to read syntax of plain-English verbs that makes your code super easy to read. Once we add pipes into the mix, you’ll be writing slick-looking and performant code in no time!</p>
+<p><strong>Note:</strong> When you’re more comfortable with R, I’d recommend looking into <code>data.table</code> which is admittedly harder to learn, but out performs <code>dplyr</code> (especially when working with datasets that are over a gigabyte in size) and is more suitable for production code.</p>
+<div id="dplyr-verbs" class="section level3">
+<h3><code>dplyr</code> verbs</h3>
+<p>Here are the main functions (verbs) in <code>dplyr</code>:</p>
+<p>*<strong><code>filter</code></strong> Get a subset of rows</p>
+<p>*<strong><code>select</code></strong> Get a subset of columns</p>
+<p>*<strong><code>group_by</code></strong> Tag data for grouped calculations</p>
+<p>*<strong><code>summarise</code></strong> Create aggregated data summaries and apply functions to data</p>
+<p>*<strong><code>mutate</code></strong> Add a new variable (also works with grouped data)</p>
+<p>*<strong><code>rename</code></strong> Rename variables</p>
+<p>*<strong><code>arrange</code></strong> Sort the data by selected columns</p>
+<p>*<strong><code>do</code></strong> Do an arbitrary thing</p>
+<p>There’s a lot more to <code>dplyr</code> than these, but for the most part, these are all you really need to know.</p>
+<p>Let’s try an example, let’s pull up all records of females in manufacturing who are over 40.</p>
+<p>Within filter, we pass it the data as the first argument followed by logical statements to apply to rows. Similar to Excel or SQL we can use AND/OR logic, the only difference is in R (and most other programming languages) we use <code>&amp;</code> for AND, and <code>|</code> for OR.</p>
+<pre class="r"><code>filter(all_data,
+       gender == &quot;female&quot; &amp; sector == &quot;manufacturing&quot; &amp; age &gt; 40)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["employee_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["age"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["h_date"],"name":[4],"type":["date"],"align":["right"]},{"label":["sector"],"name":[5],"type":["chr"],"align":["left"]},{"label":["tenure"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["tenure_label"],"name":[7],"type":["ord"],"align":["right"]},{"label":["q1"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["q2"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["q3"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["q4"],"name":[11],"type":["dbl"],"align":["right"]}],"data":[{"1":"168","2":"female","3":"53","4":"2012-06-01","5":"manufacturing","6":"6.842035","7":"5-10 years","8":"3.940335","9":"5.237835","10":"4.830236","11":"0"},{"1":"201","2":"female","3":"43","4":"2006-10-01","5":"manufacturing","6":"12.509507","7":"10+ years","8":"3.506212","9":"3.726918","10":"5.096794","11":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
-<div id="use-pipes-to-make-easy-aggregations" class="section level2">
-<h2>Use pipes to make easy aggregations</h2>
+<p>That’s nice and easy, but what if we wanted to <code>filter</code> and then <code>select</code>? We could do something like this:</p>
+<pre class="r"><code>filtered_data &lt;- filter(all_data, 
+                        (gender == &quot;female&quot; &amp; sector == &quot;manufacturing&quot; &amp; age &gt; 40)|
+                        (gender == &quot;male&quot; &amp; sector == &quot;manufacturing&quot; &amp; age &gt; 40))
+select(filtered_data, gender, age, sector, q1:q4)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sector"],"name":[3],"type":["chr"],"align":["left"]},{"label":["q1"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["q2"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["q3"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["q4"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"50","3":"manufacturing","4":"3.962041","5":"7.152177","6":"8.278358","7":"1"},{"1":"male","2":"47","3":"manufacturing","4":"3.578566","5":"3.320879","6":"3.485354","7":"1"},{"1":"male","2":"45","3":"manufacturing","4":"3.867981","5":"6.321811","6":"5.546722","7":"0"},{"1":"male","2":"41","3":"manufacturing","4":"3.216797","5":"3.301003","6":"2.568945","7":"0"},{"1":"male","2":"44","3":"manufacturing","4":"3.578566","5":"3.102668","6":"4.846522","7":"0"},{"1":"female","2":"53","3":"manufacturing","4":"3.940335","5":"5.237835","6":"4.830236","7":"0"},{"1":"female","2":"43","3":"manufacturing","4":"3.506212","5":"3.726918","6":"5.096794","7":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
-<div id="make-advanced-aggregations" class="section level2">
-<h2>Make advanced aggregations</h2>
+<pre class="r"><code># Note the little trick on q1:q4!!</code></pre>
+<p>…But, that starts to get a bit cumbersome, especially if we want to do a lot of stuff. Instead we can use pipes! What are pipes you ask? They are beauty incarnate.</p>
+</div>
+</div>
+<div id="use-pipes-to-make-easy-advanced-aggregations" class="section level2">
+<h2>Use pipes (<code>%&gt;%</code>) to make easy advanced aggregations!</h2>
+<p><code>magrittr</code> is an amazing R package. It allows use to use the pipe opperator, <code>%&gt;%</code> to funnel the output of one function directly into another by automatically setting the first argument of any function after a pipe to be the data from the previous function. To read a pipe simply, just make a mental map that <code>%&gt;%</code> = “THEN”</p>
+<p>for example, if I take the above query, I can write a <code>pipeline</code> that says:</p>
+<ul>
+<li><p>Take <code>all_data</code> THEN (<code>%&gt;%</code>)</p></li>
+<li><p><code>filter</code> it THEN (<code>%&gt;%</code>)</p></li>
+<li><p><code>select</code> the columns that I want</p></li>
+</ul>
+<pre class="r"><code>all_data %&gt;% 
+  filter((gender == &quot;female&quot; &amp; sector == &quot;manufacturing&quot; &amp; age &gt; 40)|
+         (gender == &quot;male&quot; &amp; sector == &quot;manufacturing&quot; &amp; age &gt; 40)) %&gt;%
+  select(gender, age, sector, q1:q4)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sector"],"name":[3],"type":["chr"],"align":["left"]},{"label":["q1"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["q2"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["q3"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["q4"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"male","2":"50","3":"manufacturing","4":"3.962041","5":"7.152177","6":"8.278358","7":"1"},{"1":"male","2":"47","3":"manufacturing","4":"3.578566","5":"3.320879","6":"3.485354","7":"1"},{"1":"male","2":"45","3":"manufacturing","4":"3.867981","5":"6.321811","6":"5.546722","7":"0"},{"1":"male","2":"41","3":"manufacturing","4":"3.216797","5":"3.301003","6":"2.568945","7":"0"},{"1":"male","2":"44","3":"manufacturing","4":"3.578566","5":"3.102668","6":"4.846522","7":"0"},{"1":"female","2":"53","3":"manufacturing","4":"3.940335","5":"5.237835","6":"4.830236","7":"0"},{"1":"female","2":"43","3":"manufacturing","4":"3.506212","5":"3.726918","6":"5.096794","7":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Now, let’s say I wanted to add some steps to that. Let’s say I want to aggregate that last output by gender and summarize the average scores for each question. With pipes, it’s easy, you just add more!</p>
+<ul>
+<li><p>Take <code>all_data</code> THEN (<code>%&gt;%</code>)</p></li>
+<li><p><code>filter</code> it THEN (<code>%&gt;%</code>)</p></li>
+<li><p><code>select</code> the columns that I want THEN (<code>%&gt;%</code>)</p></li>
+<li><p><code>group_by</code> gender (so everything we do gets done to males and females seperately) THEN (<code>%&gt;%</code>)</p></li>
+<li><p><code>summarize</code> the average survey results</p></li>
+</ul>
+<pre class="r"><code>all_data %&gt;% 
+  filter((gender == &quot;female&quot; &amp; sector == &quot;manufacturing&quot; &amp; age &gt; 40)|
+         (gender == &quot;male&quot; &amp; sector == &quot;manufacturing&quot; &amp; age &gt; 40)) %&gt;%
+  select(gender, age, sector, q1:q4) %&gt;%
+  group_by(gender) %&gt;%
+  summarise(avg_q1 = mean(q1), 
+            avg_q2 = mean(q2),
+            avg_q3 = mean(q3),
+            avg_q4 = mean(q4))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["gender"],"name":[1],"type":["chr"],"align":["left"]},{"label":["avg_q1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["avg_q2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["avg_q3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["avg_q4"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"female","2":"3.723273","3":"4.482377","4":"4.963515","5":"0.5"},{"1":"male","2":"3.640790","3":"4.639708","4":"4.945180","5":"0.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><strong>Now spend 10-15 minutes playing around creating your own pipelines to <code>filter</code>, <code>select</code>, <code>group_by</code>, <code>summarize</code>, and <code>arrange</code> your data to “gain actionable insights”</strong> Get creative, work together, and feel free to ask for help if you get stuck :)</p>
 </div>
 <div id="put-aggregations-into-visuals" class="section level2">
 <h2>Put aggregations into visuals</h2>

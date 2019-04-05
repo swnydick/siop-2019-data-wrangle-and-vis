@@ -41,7 +41,7 @@ knit_hooks$set(output = function(x, options) {
 # Data Cleaning
 
 In this tutorial, we will be taking in two data sets from a fictional company, 
-one being data on the employees' dempographics and the other is some fictional test scores.
+one being data on the employees' demographics and the other is some fictional test scores.
 We will be cleaning and reformatting them to make them usable, 
 joining them together, and producing some graphics from them. 
 Happily, all of this is actually pretty easy in R.
@@ -101,14 +101,14 @@ require(roperators)
 
 ### Load The Data
 
-In our data folder, there are two datasets, a csv called employee_data.csv and 
+In our data folder, there are two data sets, a csv called employee_data.csv and 
 an excel workbook called survey_results.xlsx
 
 
 To read in the csv data, we can use base R's `read.csv` function, which is the same as
 `read.table`, which you might see in other scripts, only with different default arguments. 
-What's nice aboput data stored in csv files is that because they're just plain-text
-flatfiles, they can be opened in any program or programming language. 
+What's nice about data stored in csv files is that because they're just plain-text
+flat files, they can be opened in any program or programming language. 
 
 
 
@@ -132,7 +132,7 @@ employees <- read.csv("../data/employee_data.csv", stringsAsFactors = FALSE)
 
 
 Excel's files are a little trickier to read in which is why we loaded the `openxlsx` 
-package to handle it. There are other, older packages to read in .xlsx doccuments, 
+package to handle it. There are other, older packages to read in .xlsx documents, 
 however, they often have difficult Java dependencies, hence we prefer `openxlsx`
 
 ```{r read_xlsx}
@@ -168,7 +168,7 @@ head(survey)
 
 
 **Yeesh** it looks like some well-meaning but not-data-minded person went and 
-stored the survey results in wide format with one column per respondant and one
+stored the survey results in wide format with one column per respondent and one
 row per question. 
 
 
@@ -177,7 +177,7 @@ Before we can work with this data, **We have the following problems to solve:**
 1) Missing values are coded as ".." which has turned all of the numeric columns into text!
 2) Dates need to be transformed before they can be used
 3) Values from each person are placed in different columns
-4) Variables are seperated by row, not column meaning in each row are from different variables hence the yearly column statistics are meaningless
+4) Variables are separated by row, not column meaning in each row are from different variables hence the yearly column statistics are meaningless
 
 
 ## Fix The Data
@@ -190,7 +190,7 @@ turn all cells with `..` into `NA`, and then convert the columns into `numeric`.
 
 Happily, this is all rather easy, 
 
-**Note** In some cases, such as using `gsub()` text that contains dots, such as our `..`s will requie a _regular expression_. _Regular expressions_ are a tricky subject, basically they're specially formatted text used to select specific formats of text. You can use _regular expression_`s to do some very complicated text manipulation - but it's more efficient to just look on <http://stackoverflow.com/questions/tagged/regex> for an existing example of something similar to what you're wanting to do.
+**Note** In some cases, such as using `gsub()` text that contains dots, such as our `..`s will require a _regular expression_. _Regular expressions_ are a tricky subject, basically they're specially formatted text used to select specific formats of text. You can use _regular expression_`s to do some very complicated text manipulation - but it's more efficient to just look on <http://stackoverflow.com/questions/tagged/regex> for an existing example of something similar to what you're wanting to do.
 
 Here, we'll use simple **logical indexing** to find and replace all cells that have ".." with missing values (`NA` in R)
 
@@ -203,7 +203,7 @@ Here, we'll use simple **logical indexing** to find and replace all cells that h
 
 * Replace those entries with a missing value, `NA`
 
-* Turn the age column into a `numeric` colummn
+* Turn the age column into a `numeric` column
 
 
 ```{r fix_na_gsub}
@@ -222,7 +222,7 @@ so that we can do interesting stuff, like work out how many years someone has be
 company. To do this, we'll use the base R date functions. Note that you can work with dates
 in in packages like `lubridate` which just make some things a little more straightforward :)
 
-In the following code, we need to tell R what formt the date is currently in!
+In the following code, we need to tell R what format the date is currently in!
 
 The code reads:
 
@@ -262,7 +262,7 @@ employees$tenure <- as.numeric(Sys.Date() - employees$h_date)/365.2422
 And now let's put people's tenures into categories, let's do: 0-1 year, 1-2 years,
 2-5 years, 5-10 years, and 10+ years.
 
-To accomplish this, we'll user R's `cut()` function to "cut" out numeric veriable into 
+To accomplish this, we'll user R's `cut()` function to "cut" out numeric variable into 
 categories. 
 
 `cut()` is using these arguments:
@@ -273,7 +273,7 @@ categories.
 
 * the labels corresponding to the intervals between the breaks
 
-* a logical flg telling it whether the breaks are including the number on the right 
+* a logical flag telling it whether the breaks are including the number on the right 
 of the interval. If `FALSE` it's 0 to less than 1, 2 to less than 3; if `TRUE` it's
 0 to 1, over 1 to 2, over 2 to 3, etc. 
 
@@ -304,7 +304,7 @@ plot(employees$tenure_label)
 ### Reshape the scores data
 
 Things are looking promising! But we still have to do something about the scores dataframe.
-It's be nice to be able to break down our scores by employee demographics, however, that isn't so straight-forward given that the scores are in another dataframe that is in wide format with one column per candidate. Happily, that won't take us long to fix! We'll use a package called `reshape2` to turn the datafrme into a nice long format (one row per candidate and one column per question/variable).
+It's be nice to be able to break down our scores by employee demographics, however, that isn't so straight-forward given that the scores are in another dataframe that is in wide format with one column per candidate. Happily, that won't take us long to fix! We'll use a package called `reshape2` to turn the dataframe into a nice long format (one row per candidate and one column per question/variable).
 
 
 First, let's `melt` the data into a long format (think of cheese melting off of a delicious pizza if it makes the function name more intuitive).  To use `melt()` we need to specify the following:
@@ -355,9 +355,9 @@ Perfect! Now we have one row per observation, one column per variable! Next up, 
 ## Join the dataframes together
 
 Alright, now we just need to join our dataframes, `employees` and `survey` together. 
-While you could force them together by sorting by id and using `cbind()` to effectivelly slap the columns together, that isn't really a good idea in most real-world situations as the employee id numbers may not be perfectly alligned due to discrepencies between people in the employee database and people who took the survey. That's why we'll do a formal `join` on the dataframes. 
+While you could force them together by sorting by id and using `cbind()` to effectively slap the columns together, that isn't really a good idea in most real-world situations as the employee id numbers may not be perfectly aligned due to discrepancies between people in the employee database and people who took the survey. That's why we'll do a formal `join` on the dataframes. 
 
-If you've used `SQL` to query and manipulate data or `VLOOKUP` in Excel, this may be a familiar concept. Put simply, we want to find rows where the id varible matches between our two dataframes and copy over the corresponding survey results. In this case, since we're appending survey results onto the employee data, we're technically going to do a `left outer` join - i.e. keep all employee data on the laft hand side and add survey results (on the right-hand side) if we have them. 
+If you've used `SQL` to query and manipulate data or `VLOOKUP` in Excel, this may be a familiar concept. Put simply, we want to find rows where the id variable matches between our two dataframes and copy over the corresponding survey results. In this case, since we're appending survey results onto the employee data, we're technically going to do a `left outer` join - i.e. keep all employee data on the left hand side and add survey results (on the right-hand side) if we have them. 
 
 The main types of join you'll see used are:
 
@@ -381,7 +381,7 @@ Here, we'll use left_join from dplyr with the following logic:
 
 * Make sure the id variables in both dataframes are the same type - `character` is a good thing to convert them to.
 
-* Call `left_join()` and supply the left and right data tables (employees and survey respectivelly), and by as a named character vector in the form of `c(left_id_column = right_id_column)
+* Call `left_join()` and supply the left and right data tables (employees and survey respectively), and by as a named character vector in the form of `c(left_id_column = right_id_column)
 
 
 ```{r}
@@ -398,28 +398,104 @@ Hooray! Now that our data is all pretty like, we can do some aggregations!
 
 ## Make basic aggregations
 
+Let's dive into using `dplyr`, a popular R package for manipulating dataframes. 
+While you can do pretty much everything `dplyr` does in base R, `dplyr` has a nice, easy to read syntax of plain-English verbs that makes your code super easy to read. Once we add pipes into the mix, you'll be writing slick-looking and performant code in no time! 
 
-***`filter`**    - Get a subset of rows
+**Note:** When you're more comfortable with R, I'd recommend looking into `data.table` which is admittedly harder to learn, but out performs `dplyr` (especially when working with datasets that are over a gigabyte in size) and is more suitable for production code. 
 
-***`select`**    - Get a subset of columns
+### `dplyr` verbs
 
-***`group_by`**  - Tag data for grouped calculations
+Here are the main functions (verbs) in `dplyr`: 
 
-***`summarise`**  - Create aggregated data summaries and apply functions to data
+***`filter`**\t- Get a subset of rows
 
-***`mutate`**    - Add a new variable (also works with grouped data)
+***`select`**\t- Get a subset of columns
 
-***`rename`**    - Rename variables
+***`group_by`**\t- Tag data for grouped calculations
 
-***`arrange`**   - Sort the data by selected columns
+***`summarise`**\t- Create aggregated data summaries and apply functions to data
 
-***`do`**        - Do an arbitrary thing
+***`mutate`**\t- Add a new variable (also works with grouped data)
+
+***`rename`**\t- Rename variables
+
+***`arrange`**\t- Sort the data by selected columns
+
+***`do`**\t- Do an arbitrary thing
+
+There's a lot more to `dplyr` than these, but for the most part, these are all you really need to know. 
+
+Let's try an example, let's pull up all records of females in manufacturing who are over 40. 
+
+Within filter, we pass it the data as the first argument followed by logical statements to apply to rows. Similar to Excel or SQL we can use AND/OR logic, the only difference is in R (and most other programming languages) we use `&` for AND, and `|` for OR. 
+
+```{r}
+filter(all_data,
+       gender == "female" & sector == "manufacturing" & age > 40)
+```
 
 
+That's nice and easy, but what if we wanted to `filter` and then `select`? We could do something like this:
 
+```{r}
+filtered_data <- filter(all_data, 
+                        (gender == "female" & sector == "manufacturing" & age > 40)|
+                        (gender == "male" & sector == "manufacturing" & age > 40))
+select(filtered_data, gender, age, sector, q1:q4)
 
-## Use pipes to make easy aggregations
+# Note the little trick on q1:q4!!
+```
 
-## Make advanced aggregations
+...But, that starts to get a bit cumbersome, especially if we want to do a lot of stuff. Instead we can use pipes! What are pipes you ask? They are beauty incarnate. 
+
+## Use pipes (`%>%`) to make easy advanced aggregations!
+
+`magrittr` is an amazing R package. It allows use to use the pipe opperator, `%>%` to 
+funnel the output of one function directly into another by automatically setting the first argument of any function after a pipe to be the data from the previous function. 
+To read a pipe simply, just make a mental map that `%>%` = "THEN"
+
+for example, if I take the above query, I can write a `pipeline` that says:
+
+* Take `all_data` THEN (`%>%`)
+
+* `filter` it THEN (`%>%`)
+
+* `select` the columns that I want
+
+```{r}
+all_data %>% 
+  filter((gender == "female" & sector == "manufacturing" & age > 40)|
+         (gender == "male" & sector == "manufacturing" & age > 40)) %>%
+  select(gender, age, sector, q1:q4)
+
+```
+
+Now, let's say I wanted to add some steps to that. Let's say I want to aggregate that
+last output by gender and summarize the average scores for each question. With pipes, it's easy, you just add more!
+
+* Take `all_data` THEN (`%>%`)
+
+* `filter` it THEN (`%>%`)
+
+* `select` the columns that I want THEN (`%>%`)
+
+* `group_by` gender (so everything we do gets done to males and females seperately) THEN (`%>%`)
+
+* `summarize` the average survey results
+
+```{r}
+all_data %>% 
+  filter((gender == "female" & sector == "manufacturing" & age > 40)|
+         (gender == "male" & sector == "manufacturing" & age > 40)) %>%
+  select(gender, age, sector, q1:q4) %>%
+  group_by(gender) %>%
+  summarise(avg_q1 = mean(q1), 
+            avg_q2 = mean(q2),
+            avg_q3 = mean(q3),
+            avg_q4 = mean(q4))
+
+```
+
+**Now spend 10-15 minutes playing around creating your own pipelines to `filter`, `select`, `group_by`, `summarize`, and `arrange` your data to "gain actionable insights"** Get creative, work together, and feel free to ask for help if you get stuck :)  
 
 ## Put aggregations into visuals
