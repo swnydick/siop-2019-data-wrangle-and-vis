@@ -260,3 +260,17 @@ Read the following code as:
 ```{r}
 employees$tenure <- (Sys.Date() - employees$h_date)/365.2422
 ```
+
+
+### Reshape the scores data
+
+
+## Make basic aggregations
+
+## Use pipes to make easy aggregations
+
+## Join the data together
+
+## Make advanced aggregations
+
+## Put aggregations into visuals
