@@ -1,15 +1,13 @@
 ---
-title: "Data: Wrangle and Display it With Relative Ease. "
-author: ""
-date: ""
+title: 'Data: Wrangle & Display It With (Relative) Ease'
+author: "Korn Ferry Institute"
+date: ''
 output:
   html_document:
-    theme: lumen
-    toc: yes
-  word_document:
-    toc: yes
-  pdf_document:
-    toc: yes
+    df_print: paged
+  html_notebook:
+    highlight: zenburn
+    theme: spacelab
 ---
 
 ```{r setup, include=FALSE}
@@ -40,7 +38,7 @@ knit_hooks$set(output = function(x, options) {
 
 </br> 
 
-## Data Cleaning
+# Data Cleaning
 
 In this tutorial, we will be taking in two data sets from a fictional company, 
 one being data on the employees' dempographics and the other is some fictional test scores.
@@ -66,7 +64,8 @@ Make sure you have the following packages installed
 I've attached an installation script that you can run to make sure the packages are all there:
 
 ```{r eval = FALSE}
-pkgs <- c("openxlsx", "reshape2", "dplyr", "magrittr", "ggplot2","ggthemes", "roperators")
+pkgs <- c("openxlsx", "reshape2", "dplyr", "magrittr", 
+          "ggplot2",  "ggthemes", "roperators")
 
 # Hackfix tip: 
 # Opening the CRAN mirror in a browser can help with some restricted networks
@@ -189,28 +188,27 @@ We also want to convert the age column into a `numeric` type.
 Think about the logic we want to use: we want to go through the age columns of `employees` 
 turn all cells with `..` into `NA`, and then convert the columns into `numeric`.
 
-Happily, this is all rather easy, but replacing the `..`s will requie a _regular expression_ (periods are a bit tricky to deal with). _Regular expressions_ are a tricky subject, basically they're specially formatted text used to select specific formats of text. You can use _regular expression_`s to do some very complicated text manipulation - but it's more efficient to just look on <http://stackoverflow.com/questions/tagged/regex> for an existing example of something similar to what you're wanting to do.
+Happily, this is all rather easy, 
 
-Here, we'll use `gsub` to assign a `NA` into `employees$age` whenever 
-`employees$age` is `".."` note that in the `pattern` argument, we need to write
-`"\\.\\."` because in regular expressions, a dot has a special meaning so we *escape*
-the dots with `\\.` to make it evaluate them as plain text. 
+**Note** In some cases, such as using `gsub()` text that contains dots, such as our `..`s will requie a _regular expression_. _Regular expressions_ are a tricky subject, basically they're specially formatted text used to select specific formats of text. You can use _regular expression_`s to do some very complicated text manipulation - but it's more efficient to just look on <http://stackoverflow.com/questions/tagged/regex> for an existing example of something similar to what you're wanting to do.
+
+Here, we'll use simple **logical indexing** to find and replace all cells that have ".." with missing values (`NA` in R)
 
 **The following code reads:**
 
 
 * Take the `age` column from employees (accessed with `$`)
 
+* In the age column, find all rows where age is `".."` 
 
-* Into that column place the output of `gsub()`
+* Replace those entries with a missing value, `NA`
 
-* Where `gsub` will find the pattern `"\\.\\."` and replace it with NA in `employees$age` 
+* Turn the age column into a `numeric` colummn
 
 
 ```{r fix_na_gsub}
-employees$age <- gsub(pattern = "\\.\\.", replacement = NA, x = employees$age)
-## We could also do it like this: 
-# employees$age[employees$age == ".."] <- NA
+employees$age[employees$age == ".."] <- NA
+employees$age                        <- as.numeric(employees$age)
 ## Read as: 
 ## employee$age[where employees$age is equal to ".."] replace with NA
 ## ....but we want to teach you new tricks!
@@ -253,23 +251,174 @@ Read the following code as:
 
 * into that column put the result of:
 
-* today's date (`Sys.Date()`) minus the date people were hired
+* today's date (`Sys.Date()`) minus the date people were hired (turned into `numeric` from a `difftime` class)
 
 * ...then divide that by ~365.25 days to give their tenure in years 
 
 ```{r}
-employees$tenure <- (Sys.Date() - employees$h_date)/365.2422
+employees$tenure <- as.numeric(Sys.Date() - employees$h_date)/365.2422
+```
+
+And now let's put people's tenures into categories, let's do: 0-1 year, 1-2 years,
+2-5 years, 5-10 years, and 10+ years.
+
+To accomplish this, we'll user R's `cut()` function to "cut" out numeric veriable into 
+categories. 
+
+`cut()` is using these arguments:
+
+* the variable being transformed
+
+* the break points (note `0` and `Inf` on the ends)
+
+* the labels corresponding to the intervals between the breaks
+
+* a logical flg telling it whether the breaks are including the number on the right 
+of the interval. If `FALSE` it's 0 to less than 1, 2 to less than 3; if `TRUE` it's
+0 to 1, over 1 to 2, over 2 to 3, etc. 
+
+* another flag telling R that you'd like the resulting factor levels to be ordered the way you specified it. 
+
+```{r}
+employees$tenure_label <- cut(employees$tenure,
+                              breaks = c(0, 1, 2, 5, 10, Inf),
+                              labels = c("<1 year", "1-2 years", 
+                                         "2-5 years", "5-10 years", 
+                                         "10+ years"),
+                              right = FALSE,
+                              ordered_result = TRUE)
+
+```
+
+#### Inspect the data
+
+Now checkout the distribution of the variables we just created! We'll just use 
+quick-and-dirty plots for initial visualizations
+```{r}
+# A histogram of employee age
+# hist(employees$age) # if you want to look at the distribution of employee ages
+plot(employees$tenure_label)
 ```
 
 
 ### Reshape the scores data
 
+Things are looking promising! But we still have to do something about the scores dataframe.
+It's be nice to be able to break down our scores by employee demographics, however, that isn't so straight-forward given that the scores are in another dataframe that is in wide format with one column per candidate. Happily, that won't take us long to fix! We'll use a package called `reshape2` to turn the datafrme into a nice long format (one row per candidate and one column per question/variable).
+
+
+First, let's `melt` the data into a long format (think of cheese melting off of a delicious pizza if it makes the function name more intuitive).  To use `melt()` we need to specify the following:
+
+* the dataframe we want to transform
+
+* the id variable we want the 'melted' data mapped to
+
+* the `variable.name` is the name of the column where the names of the melted columns will go
+
+* the `value.name` is the name of the column where the values of the melted columns will go
+
+```{r}
+survey <- melt(survey, 
+               id.vars = "question", 
+               variable.name = "id", 
+               value.name = "score") 
+
+```
+
+Now, let's take a peek at what `survey` looks like now:
+
+```{r}
+head(survey)
+```
+
+Hmm, it looks like we're getting there, however now the data format is a bit too long to be practical since the scores from each question are all in the same column. Let's widen it up just a little bit to get the scores from each question into their own columns. To do this we use `dcast()` to **cast** the **d**ata (think of casting a fishing line). 
+
+To use `dcast()` we need to specify:
+
+* the data we want to transform
+
+* a formula that looks like: `<row for observations> ~ <column to seperate out>`
+
+```{r}
+survey <- dcast(survey, id ~ question)
+```
+
+Now, let's take a look-see...
+
+```{r}
+head(survey)
+```
+
+Perfect! Now we have one row per observation, one column per variable! Next up, let's join the scores to the employee data by their ID number. 
+
+
+## Join the dataframes together
+
+Alright, now we just need to join our dataframes, `employees` and `survey` together. 
+While you could force them together by sorting by id and using `cbind()` to effectivelly slap the columns together, that isn't really a good idea in most real-world situations as the employee id numbers may not be perfectly alligned due to discrepencies between people in the employee database and people who took the survey. That's why we'll do a formal `join` on the dataframes. 
+
+If you've used `SQL` to query and manipulate data or `VLOOKUP` in Excel, this may be a familiar concept. Put simply, we want to find rows where the id varible matches between our two dataframes and copy over the corresponding survey results. In this case, since we're appending survey results onto the employee data, we're technically going to do a `left outer` join - i.e. keep all employee data on the laft hand side and add survey results (on the right-hand side) if we have them. 
+
+The main types of join you'll see used are:
+
+* left outer (keep everything on the left, add data from the right if there's a match)
+
+* right outer (keep everything on the right, add data from the left if there's a match)
+
+* inner (only keep rows where there's a match between the left and right tables)
+
+* outer (keep all data and fill non-matched records with `NA`s)
+
+Within R there are three main ways to join data: 
+
+* `merge()` in base R - it works, but the syntax is a little gross
+
+* `data.table` join by reference - lightning fast and great for big data but the syntax isn't intuitive
+
+* `_join` functions from `dplyr` - easy to use, albeit not nearly as fast as `data.table`
+
+Here, we'll use left_join from dplyr with the following logic:
+
+* Make sure the id variables in both dataframes are the same type - `character` is a good thing to convert them to.
+
+* Call `left_join()` and supply the left and right data tables (employees and survey respectivelly), and by as a named character vector in the form of `c(left_id_column = right_id_column)
+
+
+```{r}
+employees$employee_id <- as.character(employees$employee_id)
+survey$id             <- as.character(survey$id)
+all_data              <- left_join(employees, survey, 
+                                   by = c("employee_id" = "id"))
+head(all_data)
+```
+
+Hooray! Now that our data is all pretty like, we can do some aggregations! 
+
+
 
 ## Make basic aggregations
 
-## Use pipes to make easy aggregations
 
-## Join the data together
+***`filter`**    - Get a subset of rows
+
+***`select`**    - Get a subset of columns
+
+***`group_by`**  - Tag data for grouped calculations
+
+***`summarise`**  - Create aggregated data summaries and apply functions to data
+
+***`mutate`**    - Add a new variable (also works with grouped data)
+
+***`rename`**    - Rename variables
+
+***`arrange`**   - Sort the data by selected columns
+
+***`do`**        - Do an arbitrary thing
+
+
+
+
+## Use pipes to make easy aggregations
 
 ## Make advanced aggregations
 
