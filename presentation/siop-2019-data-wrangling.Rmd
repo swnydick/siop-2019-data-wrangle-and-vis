@@ -7,7 +7,7 @@ author:
 date: "4/6/2019"
 output:
   slidy_presentation:
-    footer: "Copyright (c) 2019, Korn Ferry"
+    footer: "Copyright \u00A9 2019, Korn Ferry"
     css: ['styles.css', 'https://fonts.googleapis.com/css?family=Open+Sans']
 ---
 
@@ -43,7 +43,7 @@ You can install them with (modifying) the following line of code
 install.packages("magrittr")
 ```
 
-## Ground Rules
+## What we want from you:
 
 1. This session assumes little familiarity with `R`. Please ask questions about
    anything. We have used `R` for a very long time and sometimes forget what
@@ -55,78 +55,42 @@ install.packages("magrittr")
 
 ## Overview of `R`
 
-- `R` was written by statisticians
-
-    - Ross Ihaka and Robert Gentleman
-    - Many of the base packages in `R`, such as "class", "cluster",
-      "KernSmooth", "MASS", "nlme", "nnet", "rpart", "spatial", "stats",
-      and "survival", are for statistical computation.
-    - A base object (a `data.frame`) is for the organization of datasets for
-      statistical analysis.
-
-- `R` is Open Source
-
-    - Anybody can download the code for their own purposes.
-    - Anybody can modify the code on their own computer.
-
-## Overview of `R` (cont.)
-
 - `R` is a functional, object-flavored programming language.
 
-    - "Functional" means everything in `R` is a function.
+    - "Functional" means everything in `R` is a function. Everything from
+      concatenation, to addition, to assignment, to extraction, to replacing
+      is a function under-the-hood.
 
     ```{r}
-    # one way
+    # nearly everything here is a function call ...
     x    <- c(1, 2, 3)
     x[2] <- 4
     x
-    
-    # another way
-    y    <- c(1, 2, 3)
-    y    <- "[<-"(y, 2, 4)
-    y
-    ```
- 
-   - Even `<-` is a function (the `<-` function) and `function` is a function
-     (the `function` function ... clearly).
-   
-## Overview of `R` (cont.)
-
-- `R` is a functional, object-flavored language.
-
-    - Object-flavored means that `R` contains objects and different operations
-      depend on the object.
-      
-    ```{r}
-    df  <- mtcars        # a data.frame
-    mod <- lm(mpg ~ cyl, # a linear model
-              data = df)
-    
-    summary(df[1:4])
-    summary(mod)
     ```
 
 
 ## Basic `R` Functions: Assignment
 
-To attach variables to objects, use the `<-` or `=` operators.
+To attach variables to objects, use the `<-` or `=` operators. `<-` is preferred
+by convention.
 
 ```{r, message=FALSE}
 require(roperators)
 x    <- 2
 y    <- TRUE
 g    <- "a"
-h     = 3
-blah <- x + h
-cat("x = " %+% x, "y = " %+% y, "g = " %+% g, "h = " %+% h, "blah = " %+% blah,
+h     = "\U0001f620" # = is Frowned upon >:(
+blah <- x + y
+
+cat("x = " %+% x, "y = " %+% y, "g = " %+% g, "h was made with = " %+% h, "blah = " %+% blah,
     sep = "  |  ")
 ```
 
-The `<-` is preferred by convention.
 
 ## Basic `R` Functions: Vectors
 
-Ordinary vectors can be created by the `c` (concatenate) function.
+Ordinary vectors can be created by the `c` (concatenate/combine) function. There
+are other ways of creating vectors, including `:` and `seq` for sequences.
 
 ```{r}
 x <- c(2, 3)
@@ -135,21 +99,14 @@ z <- c(x, y)
 z
 ```
 
-You can also generate "systematic" vectors.
+## Basic `R` Functions: Vectors (cont.)
+
+Functions in `R` are often "vectorized" (which helps with readability). Note
+that `1:10` creates a sequence and can be read `1-to-10`.
 
 ```{r}
-1:10
-seq(from = 1, to = 3, by = .5)
-rep(1, times = 10)
-```
-
-## Basic `R` Functions: Vectors
-
-Functions in `R` are often "vectorized" (which helps with readability)
-
-```{r}
-x <- 1:10
-y <- 11:20
+x <- 1:10  # 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+y <- 11:20 # 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
 x + y
 ```
 
@@ -170,14 +127,16 @@ Data frames are the typical unit of storage with the typical use case:
 
 1. Take a bunch of vectors all of the same length.
 
-    - Each vector must be a single "mode" (logical, numeric, character)
-    - Different vectors can be different "modes"
+    - Each vector must be a single `mode` (`logical`, `numeric`, `character`)
+    - Different vectors can be different `mode`s
     
 2. Bind them together.
 
 ```{r, message=FALSE}
 require(dplyr)
-df <- data.frame(x = 1:10, y = letters[1:10], z = rep(TRUE, 10),
+df <- data.frame(x = 1:10,
+                 y = letters[1:10],
+                 z = rep(TRUE, 10),
                  stringsAsFactors = FALSE)
 glimpse(df)
 ```
@@ -187,7 +146,7 @@ glimpse(df)
 - Piping is a new "method" that is compatible with `dplyr` functions.
 
     - The most common pipe is `%>%`.
-    - When you see a pipe, think "and then".
+    - When you see a pipe, think "THEN".
     - Piping lets us construct a chain where the output of one function is the
       input to the next.
       
@@ -204,13 +163,12 @@ Here is an example of when piping might help...
 ```{r, message=FALSE}
 library(magrittr)
 # without piping (parse inner to outer)
-round(exp(diff(pnorm(rnorm(10)))), 1)
+round(diff(pnorm(rnorm(10))), 1)
 
 # with piping (parse top to bottom)
 rnorm(10) %>%
   pnorm() %>%
   diff()  %>%
-  exp()   %>%
   round(1)
 ```
 
@@ -218,6 +176,7 @@ Notice how piping makes it easier to see what's happening (like a recipe):
 
 1. First, take 10 random deviates from a standard normal distribution
 2. (Then) find the percentile of that distribution
-3. (Then) take the difference between successive elements ...
+3. (Then) take the difference between successive elements
+4. (Then) round to 1 decimal place
 
 ## Exercises

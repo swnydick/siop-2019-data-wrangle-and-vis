@@ -8,7 +8,7 @@
   <meta name="author" content="Jeff Jones" />
   <meta name="author" content="Steven Nydick" />
   <meta name="author" content="Ben Wiseman" />
-  <meta name="copyright" content="Copyright (c) 2019, Korn Ferry" />
+  <meta name="copyright" content="Copyright © 2019, Korn Ferry" />
   <title>Data Wrangling with R</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -464,8 +464,8 @@ Jeff Jones<br />Steven Nydick<br />Ben Wiseman
 <p>You can install them with (modifying) the following line of code</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;magrittr&quot;</span>)</a></code></pre></div>
 </div>
-<div id="ground-rules" class="slide section level2">
-<h1>Ground Rules</h1>
+<div id="what-we-want-from-you" class="slide section level2">
+<h1>What we want from you:</h1>
 <ol style="list-style-type: decimal">
 <li>This session assumes little familiarity with <code>R</code>. Please ask questions about anything. We have used <code>R</code> for a very long time and sometimes forget what we had to learn.</li>
 <li>Try to run all of the code in <code>RStudio</code>. The setup of the demonstrations naturally works in <code>RStudio</code>. If you do not have <code>RStudio</code>, you can certainly run all of the code in <code>R</code> or a different IDE.</li>
@@ -475,122 +475,51 @@ Jeff Jones<br />Steven Nydick<br />Ben Wiseman
 <div id="overview-of-r" class="slide section level2">
 <h1>Overview of <code>R</code></h1>
 <ul>
-<li><p><code>R</code> was written by statisticians</p>
-<ul>
-<li>Ross Ihaka and Robert Gentleman</li>
-<li>Many of the base packages in <code>R</code>, such as “class”, “cluster”, “KernSmooth”, “MASS”, “nlme”, “nnet”, “rpart”, “spatial”, “stats”, and “survival”, are for statistical computation.</li>
-<li>A base object (a <code>data.frame</code>) is for the organization of datasets for statistical analysis.</li>
-</ul></li>
-<li><p><code>R</code> is Open Source</p>
-<ul>
-<li>Anybody can download the code for their own purposes.</li>
-<li>Anybody can modify the code on their own computer.</li>
-</ul></li>
-</ul>
-</div>
-<div id="overview-of-r-cont." class="slide section level2">
-<h1>Overview of <code>R</code> (cont.)</h1>
-<ul>
 <li><p><code>R</code> is a functional, object-flavored programming language.</p>
 <ul>
-<li>“Functional” means everything in <code>R</code> is a function.</li>
+<li>“Functional” means everything in <code>R</code> is a function. Everything from concatenation, to addition, to assignment, to extraction, to replacing is a function under-the-hood.</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># one way</span></a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># nearly everything here is a function call ...</span></a>
 <a class="sourceLine" id="cb2-2" title="2">x    &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb2-3" title="3">x[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">4</span></a>
 <a class="sourceLine" id="cb2-4" title="4">x</a></code></pre></div>
-<pre><code>## [1] 1 4 3</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># another way</span></a>
-<a class="sourceLine" id="cb4-2" title="2">y    &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb4-3" title="3">y    &lt;-<span class="st"> &quot;[&lt;-&quot;</span>(y, <span class="dv">2</span>, <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb4-4" title="4">y</a></code></pre></div>
-<pre><code>## [1] 1 4 3</code></pre>
-<ul>
-<li>Even <code>&lt;-</code> is a function (the <code>&lt;-</code> function) and <code>function</code> is a function (the <code>function</code> function … clearly).</li>
-</ul></li>
-</ul>
-</div>
-<div id="overview-of-r-cont.-1" class="slide section level2">
-<h1>Overview of <code>R</code> (cont.)</h1>
-<ul>
-<li><p><code>R</code> is a functional, object-flavored language.</p>
-<ul>
-<li>Object-flavored means that <code>R</code> contains objects and different operations depend on the object.</li>
-</ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">df  &lt;-<span class="st"> </span>mtcars        <span class="co"># a data.frame</span></a>
-<a class="sourceLine" id="cb6-2" title="2">mod &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>cyl, <span class="co"># a linear model</span></a>
-<a class="sourceLine" id="cb6-3" title="3">          <span class="dt">data =</span> df)</a>
-<a class="sourceLine" id="cb6-4" title="4"></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="kw">summary</span>(df[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>])</a></code></pre></div>
-<pre><code>##       mpg             cyl             disp             hp       
-##  Min.   :10.40   Min.   :4.000   Min.   : 71.1   Min.   : 52.0  
-##  1st Qu.:15.43   1st Qu.:4.000   1st Qu.:120.8   1st Qu.: 96.5  
-##  Median :19.20   Median :6.000   Median :196.3   Median :123.0  
-##  Mean   :20.09   Mean   :6.188   Mean   :230.7   Mean   :146.7  
-##  3rd Qu.:22.80   3rd Qu.:8.000   3rd Qu.:326.0   3rd Qu.:180.0  
-##  Max.   :33.90   Max.   :8.000   Max.   :472.0   Max.   :335.0</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">summary</span>(mod)</a></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = mpg ~ cyl, data = df)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -4.9814 -2.1185  0.2217  1.0717  7.5186 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  37.8846     2.0738   18.27  &lt; 2e-16 ***
-## cyl          -2.8758     0.3224   -8.92 6.11e-10 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 3.206 on 30 degrees of freedom
-## Multiple R-squared:  0.7262, Adjusted R-squared:  0.7171 
-## F-statistic: 79.56 on 1 and 30 DF,  p-value: 6.113e-10</code></pre></li>
+<pre><code>## [1] 1 4 3</code></pre></li>
 </ul>
 </div>
 <div id="basic-r-functions-assignment" class="slide section level2">
 <h1>Basic <code>R</code> Functions: Assignment</h1>
-<p>To attach variables to objects, use the <code>&lt;-</code> or <code>=</code> operators.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">require</span>(roperators)</a>
-<a class="sourceLine" id="cb10-2" title="2">x    &lt;-<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb10-3" title="3">y    &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb10-4" title="4">g    &lt;-<span class="st"> &quot;a&quot;</span></a>
-<a class="sourceLine" id="cb10-5" title="5">h     =<span class="st"> </span><span class="dv">3</span></a>
-<a class="sourceLine" id="cb10-6" title="6">blah &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span>h</a>
-<a class="sourceLine" id="cb10-7" title="7"><span class="kw">cat</span>(<span class="st">&quot;x = &quot;</span> <span class="op">%+%</span><span class="st"> </span>x, <span class="st">&quot;y = &quot;</span> <span class="op">%+%</span><span class="st"> </span>y, <span class="st">&quot;g = &quot;</span> <span class="op">%+%</span><span class="st"> </span>g, <span class="st">&quot;h = &quot;</span> <span class="op">%+%</span><span class="st"> </span>h, <span class="st">&quot;blah = &quot;</span> <span class="op">%+%</span><span class="st"> </span>blah,</a>
-<a class="sourceLine" id="cb10-8" title="8">    <span class="dt">sep =</span> <span class="st">&quot;  |  &quot;</span>)</a></code></pre></div>
-<pre><code>## x = 2  |  y = TRUE  |  g = a  |  h = 3  |  blah = 5</code></pre>
-<p>The <code>&lt;-</code> is preferred by convention.</p>
+<p>To attach variables to objects, use the <code>&lt;-</code> or <code>=</code> operators. <code>&lt;-</code> is preferred by convention.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">require</span>(roperators)</a>
+<a class="sourceLine" id="cb4-2" title="2">x    &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb4-3" title="3">y    &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb4-4" title="4">g    &lt;-<span class="st"> &quot;a&quot;</span></a>
+<a class="sourceLine" id="cb4-5" title="5">h     =<span class="st"> &quot;\U0001f620&quot;</span> <span class="co"># = is Frowned upon &gt;:(</span></a>
+<a class="sourceLine" id="cb4-6" title="6">blah &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span>y</a>
+<a class="sourceLine" id="cb4-7" title="7"></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="kw">cat</span>(<span class="st">&quot;x = &quot;</span> <span class="op">%+%</span><span class="st"> </span>x, <span class="st">&quot;y = &quot;</span> <span class="op">%+%</span><span class="st"> </span>y, <span class="st">&quot;g = &quot;</span> <span class="op">%+%</span><span class="st"> </span>g, <span class="st">&quot;h was made with = &quot;</span> <span class="op">%+%</span><span class="st"> </span>h, <span class="st">&quot;blah = &quot;</span> <span class="op">%+%</span><span class="st"> </span>blah,</a>
+<a class="sourceLine" id="cb4-9" title="9">    <span class="dt">sep =</span> <span class="st">&quot;  |  &quot;</span>)</a></code></pre></div>
+<pre><code>## x = 2  |  y = TRUE  |  g = a  |  h was made with = 😠  |  blah = 3</code></pre>
 </div>
 <div id="basic-r-functions-vectors" class="slide section level2">
 <h1>Basic <code>R</code> Functions: Vectors</h1>
-<p>Ordinary vectors can be created by the <code>c</code> (concatenate) function.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb12-2" title="2">y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb12-3" title="3">z &lt;-<span class="st"> </span><span class="kw">c</span>(x, y)</a>
-<a class="sourceLine" id="cb12-4" title="4">z</a></code></pre></div>
+<p>Ordinary vectors can be created by the <code>c</code> (concatenate/combine) function. There are other ways of creating vectors, including <code>:</code> and <code>seq</code> for sequences.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb6-2" title="2">y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb6-3" title="3">z &lt;-<span class="st"> </span><span class="kw">c</span>(x, y)</a>
+<a class="sourceLine" id="cb6-4" title="4">z</a></code></pre></div>
 <pre><code>## [1] 2 3 5 6</code></pre>
-<p>You can also generate “systematic” vectors.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a></code></pre></div>
-<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">seq</span>(<span class="dt">from =</span> <span class="dv">1</span>, <span class="dt">to =</span> <span class="dv">3</span>, <span class="dt">by =</span> <span class="fl">.5</span>)</a></code></pre></div>
-<pre><code>## [1] 1.0 1.5 2.0 2.5 3.0</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dt">times =</span> <span class="dv">10</span>)</a></code></pre></div>
-<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1</code></pre>
 </div>
-<div id="basic-r-functions-vectors-1" class="slide section level2">
-<h1>Basic <code>R</code> Functions: Vectors</h1>
-<p>Functions in <code>R</code> are often “vectorized” (which helps with readability)</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb20-2" title="2">y &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</span><span class="dv">20</span></a>
-<a class="sourceLine" id="cb20-3" title="3">x <span class="op">+</span><span class="st"> </span>y</a></code></pre></div>
+<div id="basic-r-functions-vectors-cont." class="slide section level2">
+<h1>Basic <code>R</code> Functions: Vectors (cont.)</h1>
+<p>Functions in <code>R</code> are often “vectorized” (which helps with readability). Note that <code>1:10</code> creates a sequence and can be read <code>1-to-10</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>  <span class="co"># 1, 2, 3, 4, 5, 6, 7, 8, 9, 10</span></a>
+<a class="sourceLine" id="cb8-2" title="2">y &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</span><span class="dv">20</span> <span class="co"># 11, 12, 13, 14, 15, 16, 17, 18, 19, 20</span></a>
+<a class="sourceLine" id="cb8-3" title="3">x <span class="op">+</span><span class="st"> </span>y</a></code></pre></div>
 <pre><code>##  [1] 12 14 16 18 20 22 24 26 28 30</code></pre>
 <p>Compare that with <code>python</code></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb22-1" title="1">x <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)</a>
-<a class="sourceLine" id="cb22-2" title="2">y <span class="op">=</span> <span class="bu">range</span>(<span class="dv">11</span>, <span class="dv">21</span>)</a>
-<a class="sourceLine" id="cb22-3" title="3"><span class="bu">print</span>(<span class="bu">list</span>(<span class="bu">map</span>(<span class="kw">lambda</span> i, j: i <span class="op">+</span> j, x, y)))</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb10-1" title="1">x <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)</a>
+<a class="sourceLine" id="cb10-2" title="2">y <span class="op">=</span> <span class="bu">range</span>(<span class="dv">11</span>, <span class="dv">21</span>)</a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="bu">print</span>(<span class="bu">list</span>(<span class="bu">map</span>(<span class="kw">lambda</span> i, j: i <span class="op">+</span> j, x, y)))</a></code></pre></div>
 <pre><code>## [12, 14, 16, 18, 20, 22, 24, 26, 28, 30]</code></pre>
 <p>Ignore the specifics. There are other ways of doing this in <code>python</code>, but it’s certainly not as easy or clean as <code>R</code>.</p>
 </div>
@@ -600,15 +529,17 @@ Jeff Jones<br />Steven Nydick<br />Ben Wiseman
 <ol style="list-style-type: decimal">
 <li><p>Take a bunch of vectors all of the same length.</p>
 <ul>
-<li>Each vector must be a single “mode” (logical, numeric, character)</li>
-<li>Different vectors can be different “modes”</li>
+<li>Each vector must be a single <code>mode</code> (<code>logical</code>, <code>numeric</code>, <code>character</code>)</li>
+<li>Different vectors can be different <code>mode</code>s</li>
 </ul></li>
 <li><p>Bind them together.</p></li>
 </ol>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">require</span>(dplyr)</a>
-<a class="sourceLine" id="cb24-2" title="2">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dt">y =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], <span class="dt">z =</span> <span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb24-3" title="3">                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb24-4" title="4"><span class="kw">glimpse</span>(df)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">require</span>(dplyr)</a>
+<a class="sourceLine" id="cb12-2" title="2">df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb12-3" title="3">                 <span class="dt">y =</span> letters[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>],</a>
+<a class="sourceLine" id="cb12-4" title="4">                 <span class="dt">z =</span> <span class="kw">rep</span>(<span class="ot">TRUE</span>, <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb12-5" title="5">                 <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="kw">glimpse</span>(df)</a></code></pre></div>
 <pre><code>## Observations: 10
 ## Variables: 3
 ## $ x &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -621,7 +552,7 @@ Jeff Jones<br />Steven Nydick<br />Ben Wiseman
 <li><p>Piping is a new “method” that is compatible with <code>dplyr</code> functions.</p>
 <ul>
 <li>The most common pipe is <code>%&gt;%</code>.</li>
-<li>When you see a pipe, think “and then”.</li>
+<li>When you see a pipe, think “THEN”.</li>
 <li>Piping lets us construct a chain where the output of one function is the input to the next.</li>
 </ul></li>
 <li><p>There are many tutorials on piping in <code>R</code>.</p>
@@ -635,22 +566,22 @@ Jeff Jones<br />Steven Nydick<br />Ben Wiseman
 <div id="basic-r-functions-piping-cont." class="slide section level2">
 <h1>Basic <code>R</code> Functions: Piping (cont.)</h1>
 <p>Here is an example of when piping might help…</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">library</span>(magrittr)</a>
-<a class="sourceLine" id="cb26-2" title="2"><span class="co"># without piping (parse inner to outer)</span></a>
-<a class="sourceLine" id="cb26-3" title="3"><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">diff</span>(<span class="kw">pnorm</span>(<span class="kw">rnorm</span>(<span class="dv">10</span>)))), <span class="dv">1</span>)</a></code></pre></div>
-<pre><code>## [1] 0.7 1.7 0.6 1.1 1.9 0.4 1.6 1.2 1.0</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="co"># with piping (parse top to bottom)</span></a>
-<a class="sourceLine" id="cb28-2" title="2"><span class="kw">rnorm</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb28-3" title="3"><span class="st">  </span><span class="kw">pnorm</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb28-4" title="4"><span class="st">  </span><span class="kw">diff</span>()  <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb28-5" title="5"><span class="st">  </span><span class="kw">exp</span>()   <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb28-6" title="6"><span class="st">  </span><span class="kw">round</span>(<span class="dv">1</span>)</a></code></pre></div>
-<pre><code>## [1] 1.9 1.0 0.8 0.7 1.6 1.1 1.0 0.9 0.8</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="co"># without piping (parse inner to outer)</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="kw">round</span>(<span class="kw">diff</span>(<span class="kw">pnorm</span>(<span class="kw">rnorm</span>(<span class="dv">10</span>))), <span class="dv">1</span>)</a></code></pre></div>
+<pre><code>## [1] -0.1  0.0 -0.3 -0.1  0.7 -0.3  0.1 -0.5  0.0</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># with piping (parse top to bottom)</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">rnorm</span>(<span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-3" title="3"><span class="st">  </span><span class="kw">pnorm</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-4" title="4"><span class="st">  </span><span class="kw">diff</span>()  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb16-5" title="5"><span class="st">  </span><span class="kw">round</span>(<span class="dv">1</span>)</a></code></pre></div>
+<pre><code>## [1]  0.2  0.3 -0.2  0.1 -0.3  0.4  0.4 -0.4  0.3</code></pre>
 <p>Notice how piping makes it easier to see what’s happening (like a recipe):</p>
 <ol style="list-style-type: decimal">
 <li>First, take 10 random deviates from a standard normal distribution</li>
 <li>(Then) find the percentile of that distribution</li>
-<li>(Then) take the difference between successive elements …</li>
+<li>(Then) take the difference between successive elements</li>
+<li>(Then) round to 1 decimal place</li>
 </ol>
 </div>
 <div id="exercises" class="slide section level2">
