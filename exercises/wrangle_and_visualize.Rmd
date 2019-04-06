@@ -3,13 +3,13 @@ title: 'Data: Wrangle & Display It With (Relative) Ease'
 author: "Korn Ferry Institute"
 date: ''
 output:
-  html_document:
-    df_print: paged
+  word_document: default
   html_notebook:
     highlight: zenburn
     theme: spacelab
   pdf_document: default
-  word_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -390,23 +390,15 @@ API.
 Here are the main functions (verbs) in `dplyr`: 
 
 
-***`filter`**\t- Get a subset of *rows*
-
-***`select`**\t- Get a subset of *columns*
-
-***`group_by`**\t- Determine columns to group by for grouped calculations
-
-***`summarise`**\t- Create aggregated data summaries and apply functions to data
-
-***`mutate`**\t- Add and modify a column (also works with grouped data)
-
-***`ungroup**\t- Removes the effect of `group_by`
-
-***`rename`**\t- Rename columns
-
-***`arrange`**\t- Sort the data by selected columns
-
-***`do`**\t- Do an arbitrary thing (advanced)
+* **`filter`**\t- Get a subset of *rows*
+* **`select`**\t- Get a subset of *columns*
+* **`group_by`**\t- Determine columns to group by for grouped calculations
+* **`summarise`**\t- Create aggregated data summaries and apply functions to data
+* **`mutate`**\t- Add and modify a column (also works with grouped data)
+* **`ungroup`**\t- Removes the effect of `group_by`
+* **`rename`**\t- Rename columns
+* **`arrange`**\t- Sort the data by selected columns
+* **`do`**\t- Do an arbitrary thing (advanced)
 
 `dplyr` has a lot more functionality, but especially at the beginning, these
 are most of what you really need to know. 
@@ -661,27 +653,16 @@ an entire day and still not cover them all in depth!
 Here’s a list of other handy geometries to play around with in your spare time:
 
 * Line charts: `geom_line` 
-
 * Area charts: `geom_area`
-
 * Histograms: `geom_hist`
-
 * Boxplots: `geom_boxplot`
-
 * Density curves: `geom_density`
-
 * Violin plots: `geom_violin`
-
 * Dotplots: `geom_dotplot`
-
 * Area around a line: `geom_ribbon`
-
 * Hexagonal binning: `geom_hex`
-
 * Contour plots: `geom_contour`
-
 * Heatmaps: `geom_tile` and `geom_density_2d`
-
 * Labels and text: `geom_label` and `geom_text`
 
 
@@ -694,13 +675,9 @@ To apply a color, or specify the shape (for points), line type (for lines), and
 size (points and outlines) of an object, simply pass in the arguments:
 
 * `color` = "color name"
-
 * `fill` = "colour name" for colouring the inside of shapes
-
 * `shape` = #
-
 * `linetype` = "style"
-
 * `size` = #
 
 See http://www.cookbook-r.com/Graphs/Shapes_and_line_types/ for more details on
