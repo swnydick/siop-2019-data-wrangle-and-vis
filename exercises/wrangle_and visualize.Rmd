@@ -3,11 +3,13 @@ title: 'Data: Wrangle & Display It With (Relative) Ease'
 author: "Korn Ferry Institute"
 date: ''
 output:
-  html_document:
-    df_print: paged
+  word_document: default
   html_notebook:
     highlight: zenburn
     theme: spacelab
+  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -51,12 +53,19 @@ Happily, all of this is actually pretty easy in R.
 ## Dependencies and setup
 
 Make sure you have the following packages installed
+
 * `openxlsx`
+
 * `reshape2`
+
 * `dplyr`
+
 * `magrittr`
+
 * `ggplot2`
+
 * `ggthemes`
+
 * `roperators`
 
 
@@ -407,27 +416,29 @@ While you can do pretty much everything `dplyr` does in base R, `dplyr` has a ni
 
 Here are the main functions (verbs) in `dplyr`: 
 
-***`filter`**\t- Get a subset of rows
+***`filter`**\t- Get a subset of *rows*
 
-***`select`**\t- Get a subset of columns
+***`select`**\t- Get a subset of *columns*
 
 ***`group_by`**\t- Tag data for grouped calculations
 
 ***`summarise`**\t- Create aggregated data summaries and apply functions to data
 
-***`mutate`**\t- Add a new variable (also works with grouped data)
+***`mutate`**\t- Add and modify a column (also works with grouped data)
 
-***`rename`**\t- Rename variables
+***`ungroup**\t- Removes the effect of `group_by`
+
+***`rename`**\t- Rename columns
 
 ***`arrange`**\t- Sort the data by selected columns
 
-***`do`**\t- Do an arbitrary thing
+***`do`**\t- Do an arbitrary thing (advanced)
 
 There's a lot more to `dplyr` than these, but for the most part, these are all you really need to know. 
 
 Let's try an example, let's pull up all records of females in manufacturing who are over 40. 
 
-Within filter, we pass it the data as the first argument followed by logical statements to apply to rows. Similar to Excel or SQL we can use AND/OR logic, the only difference is in R (and most other programming languages) we use `&` for AND, and `|` for OR. 
+Within `filter`, we pass it the data as the first argument followed by logical statements to apply to rows. Similar to Excel or SQL we can use AND/OR logic, the only difference is in R (and most other programming languages) we use `&` for AND, and `|` for OR. 
 
 ```{r}
 filter(all_data,
@@ -486,7 +497,7 @@ last output by gender and summarize the average scores for each question. With p
 ```{r}
 all_data %>% 
   filter((gender == "female" & sector == "manufacturing" & age > 40)|
-         (gender == "male" & sector == "manufacturing" & age > 40)) %>%
+         (gender == "male"   & sector == "manufacturing" & age > 40)) %>%
   select(gender, age, sector, q1:q4) %>%
   group_by(gender) %>%
   summarise(avg_q1 = mean(q1), 
@@ -498,4 +509,237 @@ all_data %>%
 
 **Now spend 10-15 minutes playing around creating your own pipelines to `filter`, `select`, `group_by`, `summarize`, and `arrange` your data to "gain actionable insights"** Get creative, work together, and feel free to ask for help if you get stuck :)  
 
-## Put aggregations into visuals
+## Make pretty pictures with `ggplot2`
+
+
+When people talk about R’s graphics abilities, a lot of the time they are referring 
+to a package called `ggplot2` (often simply called ggplot) created by Hadley Wickham, 
+one of the R Studio developers who is also the the author of `dplyr` (among other R packages). 
+What sets `ggplot2` apart from other graphics packages is that it allows you to create layered 
+graphics with its own syntax commonly referred to as the Grammar of Graphics.
+
+
+Code for `ggplot2` can seem off putting at first glance - as such it’s important to think of creating a plot in R the same way you’d paint a picture on canvas:
+
+
+1) You need to get your canvas
+
+2) You add the basic shapes and objects
+
+3) You add details
+
+4) You apply color
+
+5) You add finishing touches
+
+
+You can either create your plot directly or save it as an object, in the next few examples we will draw our
+plots directly to get some practice with the syntax (yay, repetition!)
+
+
+### Creating a canvas
+The first step in making a pretty picture is setting out where it’s going to be drawn. This is done by creating a basic `ggplot()` object which is told what the data are and (usually) what the x and y axes will be. To do that, you need to feed in the data as the first argument (or with `data = your_data`) and set up some **aesthetic mapping** in the `aes()` argument. 
+
+Anything inside the `aes()` argument tells ggplot how to map objects in the plot, for example what x and y are, what variable to color by, etc. Let’s start setting up a basic plot of responses for `q1` vs `age` in `all_data`
+
+```{r}
+my_plot <- ggplot(all_data, aes(x = age, y = q1))
+my_plot
+```
+
+Note that while we have specified the axes, we said nothing about what to put on them, and are left with a
+blank plot. To add a graph to it, we need to specify the **geometry** you want to add. To change things like the background, font, and so on, you need to specift a **theme**.
+
+### Geometries
+There are many different types of graph that can be drawn with `ggplot2` - far more than we can cover in
+this tutorial. We will only be able to cover some of the fundamental chart types, however with the exception of multiple y axes and 3D barcharts* if you can imagine it, it can be done. 3D plotting is possible, but it takes some additional steps, see http://blog.revolutionanalytics.
+com/2014/11/3-d-plots-with-plotly.html for example.
+
+
+By default, each additional **geometry** inherrits the **aesthetic mapping** from the main ggplot object, however you can specify these individually as well.
+
+### Scatter plots: `geom_point`
+Let's begin by adding a **layer** of red points (`geom_point`) to our empty plot. To add layers
+in `ggplot2` we just use `+` like so:
+
+```{r warning=FALSE}
+my_plot <- my_plot + geom_point(color = "red")
+my_plot
+```
+
+Adding a custom trendline in ggplot is mercifully flexible. By default, a LOESS smother is used, however this can easily be changed to become a simple linear trend, GAM, GLM, and so on.
+For example, to fit a linear trendline, you woud add a **`geom_smooth()`** and specify that the smoothing method is a linear model (`lm`)
+
+```{r warning=FALSE}
+my_plot <- my_plot + geom_smooth(method = "lm")
+my_plot
+```
+
+**Rember** there are many more arguments to use with `geom_smooth` - if you need it done, it can be done.
+
+### Bar charts: `geom_bar`
+To create a bar chart, to make things easy* you will need to add a `geom_bar` object and must specify 
+`stat = "identity"` (by default it wants to do a count, identity just means draw a specific value) and use a subset of data that you have pre-made.
+
+
+For example, to make a bar chart out of the average response rate to q4 in our data:
+
+1) Make a data set to plot (by now you should be realising that data manipulation goes hand in hand
+with plotting)
+2) Create a plot
+3) Add a `geom_bar` to it. 
+
+Let's spice things up a little and pipe directly from `dplyr` into `ggplot2`. We'll also 
+set the `fill` color of the bars to be turquoise and set them to be partially transparent with `alpha`. Then, we'll also add a custom y-axis label too!
+
+```{r}
+all_data %>% #take all_data THEN
+  group_by(sector) %>% #group it by sector THEN
+  summarise(p = mean(q4)) %>% #average of q1 across each group THEN
+  ggplot(aes(x = sector, y = p)) + # put it into a plot and add...
+  geom_bar(stat = "identity", fill = "turquoise", alpha = 0.5) + # ...bars and...
+  ylab("Q4 Response Rate") # ...a custom y axis label
+
+```
+
+### Error bars: `geom_errorbar`
+To add an error bar to the above example, you would use `geom_errorbar()` with a specific ymin and ymax in the aesthetic mapping. We’ll create the standard deviation as:
+$$\sqrt(\frac{pq}{n})$$.
+Repeat the previous plot and add error bars with `ymin` and `ymax` set in the `aes()` argument and set the `width` of the bar caps to be 0.5 (i.e. they total half the bar's width)
+
+```{r}
+all_data %>% #take all_data THEN
+  group_by(sector) %>% #group it by sector THEN
+  summarise(p  = mean(q4),
+            q  = 1-p,
+            n  = n(),
+            sd = sqrt((p*q)/n)) %>% #average of q1 across each group THEN
+  ggplot(aes(x = sector, y = p)) + # put it into a plot and add...
+  geom_bar(stat = "identity", fill = "forest green", alpha = 0.5) + # ...bars and...
+  geom_errorbar(aes(ymin = p - sd, ymax = p + sd), width = 0.5) + 
+  ylab("Average Q4 Response") # ...a custom y axis label
+```
+
+
+### Other useful geometries:
+`ggplot2` has many more types of plot that it can draw. Arguably, we could spend an entire day and still not cover them all in depth!
+Here’s a list of other handy geometries to play around with in your spare time:
+
+* Line charts: `geom_line` 
+
+* Area charts: `geom_area`
+
+* Histograms: `geom_hist`
+
+* Boxplots: `geom_boxplot`
+
+* Density curves: `geom_density`
+
+* Violin plots: `geom_violin`
+
+* Dotplots: `geom_dotplot`
+
+* Area around a line: `geom_ribbon`
+
+* Hexagonal binning: `geom_hex`
+
+* Contour plots: `geom_contour`
+
+* Heatmaps: `geom_tile` and `geom_density_2d`
+
+* Labels and text: `geom_label` and `geom_text`
+
+
+Look in R Studio’s Help > Cheatsheets > Data Visualization with ggplot2 for a handy guide or consult *The R Graphics Cookbook* for handy `ggplot2 recipies`.
+
+### Colors, shapes, and sizes
+
+To apply a color, or specify the shape (for points), line type (for lines), and size (points and outlines) of an object, simply pass in the arguments:
+
+* `color` = "color name"
+
+* `fill` = "colour name" for colouring the inside of shapes
+
+* `shape` = #
+
+* `linetype` = "style"
+
+* `size` = #
+
+See http://www.cookbook-r.com/Graphs/Shapes_and_line_types/ for more details on shapes and line types.
+
+**Play around with the following code to improve on the plot it generates:**
+
+```{r}
+all_data %>% #take all_data THEN
+  group_by(sector) %>% #group it by sector THEN
+  summarise(p  = mean(q4),
+            q  = 1-p,
+            n  = n(),
+            sd = sqrt((p*q)/n)) %>%
+  ggplot(aes(x = sector, y = p)) +
+  geom_bar(stat = "identity", fill = "deeppink", color = "darkorange",
+           size = 2, alpha = 0.6, linetype = "dashed") + 
+  geom_errorbar(aes(ymin = p - sd, ymax = p + sd), 
+                width = 0.2, color = "skyblue", size = 2) + 
+  ylab("Average Q4 Response") # ...a custom y axis label
+
+```
+
+### Setting colors, shapes, and sizes by group
+
+To set a graphical parameter by group (i.e to map the colour to something), you need to include the color mapping (outline or fill color) in the `aes()` argument like so:
+
+**Eww, this one's worse than before! Looks like there are some other arguments snuck in too -- and a couple of `scale` objects! Play around and see what you do to make this look better!**
+
+```{r}
+
+all_data %>% #take all_data THEN
+  group_by(gender, sector) %>% #group it by sector THEN
+  summarise(avg = mean(q3),
+            n   = n(),
+            se  = sd(q3)/sqrt(n)) %>%
+  ggplot(aes(x = sector, y = avg)) + 
+  geom_bar(stat = "identity", position = "dodge",
+           aes(fill = gender, linetype = sector)) +
+  geom_errorbar(aes(ymin = avg - se, ymax = avg + se, 
+                    linetype = gender, size = sector, color = se),
+                size = 2, position = "dodge") +
+  scale_fill_manual(values = c("#33996699", "#3a456aEE")) + 
+  scale_color_continuous(low = "#3399CC", high = "#FFC80A")
+
+
+```
+
+### Themes and finishing touches
+
+This is where the 80/20 principle meets plotting with ggplot - the possibilities for finishing touches are vast, so I will ony give a couple of quick examples here. As you get more experienced, they will become like second nature for you, but until then, *Google and Stack Exchange are going to be your friends*.
+
+**Themes:** You can personalise a ggplot to the nth degree if you so choose. Mostly this is done by adding a `theme()` - since that’s a relatively advanced topic, we have loaded the ever useful `ggthemes` package which comes with some pre-made themes and color schemes ready to go.
+
+
+**Labels:** You can specify label names either in the scale_x/y_continious objects or by adding an `xlab` and/or a `ylab`
+
+
+**Colorschemes:** To specify a colour scheme, add a `scale_fil_`... or `scale_colour_`... to your plot (select based on the axis type). For manual discrete scales, set the colors by `values = c(col1, col2, col3,...)` in order of appearance.
+
+
+Play around with the following code to understand what it is doing. If you can follow what this monster chunk of code is doing, you're well on your way to mastering data wranglin and visualization in R!
+
+*(hint - use R Studio’s code completion suggestions to your advantage)*
+
+```{r, warning=FALSE}
+all_data %>%
+  filter(sector %in% c("sales", "manufacturing", "finance")) %>%
+  ggplot(aes(x = age, y = q3, color = sector)) +
+  geom_point(alpha = 0.4, aes(color = sector)) +
+  geom_smooth(method = "lm", aes(fill = sector), na.rm = TRUE) +
+  theme_solarized() +
+  ylab("Question 3: Average Rating") +
+  xlab("Employee Age") +
+  labs(fill = expression(paste("Prediction\nError = ", 
+                          sqrt(over(sum(("Y" - "Y'"))^2,"N"))))) +
+  scale_fill_solarized() +
+  scale_color_solarized(guide = FALSE)
+
+```
